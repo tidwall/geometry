@@ -2,7 +2,7 @@
 
 [![GoDoc](https://godoc.org/github.com/tidwall/geometry?status.svg)](https://godoc.org/github.com/tidwall/geometry)
 
-This package provides efficient 2D geometry utilities for Go.
+An efficient 2D geometry library for Go.
 
 - Features Point, Rect, Line, and Polygon geometry types
 - Operations such as Intersects, Contains, and Point-in-polygon
