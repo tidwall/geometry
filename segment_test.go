@@ -41,6 +41,10 @@ func TestSegmentContainsSegment(t *testing.T) {
 	expect(t, S(0, 0, 10, 10).ContainsSegment(S(2, 2, 8, 8)))
 	expect(t, S(0, 0, 10, 10).ContainsSegment(S(8, 8, 2, 2)))
 	expect(t, !S(0, 0, 10, 10).ContainsSegment(S(-1, -1, 8, 8)))
+	// bigger contains smaller
+	expect(t, S(-1, -1, 18, 18).ContainsSegment(S(0, 0, 10, 10)))
+	// smaller not contains bigger
+	expect(t, !S(0, 0, 10, 10).ContainsSegment(S(-1, -1, 18, 18)))
 }
 
 func TestSegmentIntersectsSegment(t *testing.T) {
