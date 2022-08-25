@@ -136,6 +136,7 @@ func (seg Segment) Distance(point Point) float64 {
 	if segmentSize == 0 {
 		return seg.A.Distance(point)
 	}
+	// https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D0%B5_%D0%BE%D1%82_%D1%82%D0%BE%D1%87%D0%BA%D0%B8_%D0%B4%D0%BE_%D0%BF%D1%80%D1%8F%D0%BC%D0%BE%D0%B9_%D0%BD%D0%B0_%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%BE%D1%81%D1%82%D0%B8
 	dy := seg.B.Y - seg.A.Y
 	dx := seg.B.X - seg.A.X
 	return math.Abs(dy*point.X-dx*point.Y+seg.B.X*seg.A.Y-seg.B.Y*seg.A.X) / segmentSize
