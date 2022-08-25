@@ -6,6 +6,7 @@ package geometry
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	"testing"
 )
@@ -21,6 +22,7 @@ func TestSegmentContainsPoint(t *testing.T) {
 
 func TestSegmentCollinearPoint(t *testing.T) {
 	expect(t, S(0, 0, 1, 1).CollinearPoint(P(-1, -1)))
+	expect(t, !S(0, 0, 1, 1).CollinearPoint(P(0, -1)))
 	expect(t, S(0, 0, 1, 1).CollinearPoint(P(0.5, 0.5)))
 	expect(t, S(0, 0, 1, 1).CollinearPoint(P(2, 2)))
 	expect(t, S(1, 1, 0, 0).CollinearPoint(P(-1, -1)))
@@ -32,6 +34,10 @@ func TestSegmentCollinearPoint(t *testing.T) {
 	expect(t, S(0, 1, 1, 0).CollinearPoint(P(2, -1)))
 	expect(t, S(0, 1, 1, 0).CollinearPoint(P(0.5, 0.5)))
 	expect(t, S(0, 1, 1, 0).CollinearPoint(P(-1, 2)))
+}
+
+func TestGetCollinearity(t *testing.T) {
+	expect(t, math.Abs(S(36.18081913335887, 51.77085886276735, 36.180163, 51.772089).GetCollinearity(P(36.180882800369446, 51.770739498069396))) < 0.0000000000000000081)
 }
 
 func TestSegmentContainsSegment(t *testing.T) {

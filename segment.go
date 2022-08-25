@@ -32,10 +32,15 @@ func (seg Segment) Rect() Rect {
 }
 
 func (seg Segment) CollinearPoint(point Point) bool {
+	cmpxr := seg.GetCollinearity(point)
+	return cmpxr == 0
+}
+
+func (seg Segment) GetCollinearity(point Point) float64 {
 	cmpx, cmpy := point.X-seg.A.X, point.Y-seg.A.Y
 	rx, ry := seg.B.X-seg.A.X, seg.B.Y-seg.A.Y
 	cmpxr := cmpx*ry - cmpy*rx
-	return cmpxr == 0
+	return cmpxr
 }
 
 func (seg Segment) ContainsPoint(point Point) bool {
