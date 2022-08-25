@@ -373,3 +373,11 @@ func TestSegmentMove(t *testing.T) {
 func TestSegmentRect(t *testing.T) {
 	expect(t, S(12, 13, 11, 12).Rect() == R(11, 12, 12, 13))
 }
+
+func TestSegment_Distance(t *testing.T) {
+	expect(t, S(0, 0, 5, 0).Distance(P(1, 1)) == 1)
+	expect(t, S(0, 0, 0, 5).Distance(P(1, 1)) == 1)
+	expect(t, S(0, 0, 1, 1).Distance(P(1, 1)) == 0)
+	expect(t, S(0, 0, 1, 1).Distance(P(5, 5)) == 0)
+	t.Log(S(36.18081913335887, 51.77085886276735, 36.180163, 51.772089).Distance(P(36.180882800369446, 51.770739498069396)))
+}

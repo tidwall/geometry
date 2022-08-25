@@ -4,6 +4,8 @@
 
 package geometry
 
+import "math"
+
 // Segment is a two point line
 type Segment struct {
 	A, B Point
@@ -126,4 +128,15 @@ func (seg Segment) IntersectsSegment(other Segment) bool {
 // ContainsSegment returns true if segment contains other segment
 func (seg Segment) ContainsSegment(other Segment) bool {
 	return seg.Raycast(other.A).On && seg.Raycast(other.B).On
+}
+
+// distance from point to line
+func (seg Segment) Distance(point Point) float64 {
+	segmentSize := seg.A.Distance(seg.B)
+	if segmentSize == 0 {
+		return seg.A.Distance(point)
+	}
+	dy := seg.B.Y - seg.A.Y
+	dx := seg.B.X - seg.A.X
+	return math.Abs(dy*point.X-dx*point.Y+seg.B.X*seg.A.Y-seg.B.Y*seg.A.X) / segmentSize
 }
