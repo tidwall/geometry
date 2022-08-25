@@ -132,7 +132,7 @@ func (seg Segment) ContainsSegment(other Segment) bool {
 
 // distance from point to line
 func (seg Segment) Distance(point Point) float64 {
-	segmentSize := seg.A.Distance(seg.B)
+	segmentSize := seg.GetSize()
 	if segmentSize == 0 {
 		return seg.A.Distance(point)
 	}
@@ -140,4 +140,8 @@ func (seg Segment) Distance(point Point) float64 {
 	dy := seg.B.Y - seg.A.Y
 	dx := seg.B.X - seg.A.X
 	return math.Abs(dy*point.X-dx*point.Y+seg.B.X*seg.A.Y-seg.B.Y*seg.A.X) / segmentSize
+}
+
+func (seg Segment) GetSize() float64 {
+	return seg.A.Distance(seg.B)
 }
