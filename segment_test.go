@@ -6,6 +6,7 @@ package geometry
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	"testing"
 )
@@ -21,6 +22,7 @@ func TestSegmentContainsPoint(t *testing.T) {
 
 func TestSegmentCollinearPoint(t *testing.T) {
 	expect(t, S(0, 0, 1, 1).CollinearPoint(P(-1, -1)))
+	expect(t, !S(0, 0, 1, 1).CollinearPoint(P(0, -1)))
 	expect(t, S(0, 0, 1, 1).CollinearPoint(P(0.5, 0.5)))
 	expect(t, S(0, 0, 1, 1).CollinearPoint(P(2, 2)))
 	expect(t, S(1, 1, 0, 0).CollinearPoint(P(-1, -1)))
@@ -34,11 +36,21 @@ func TestSegmentCollinearPoint(t *testing.T) {
 	expect(t, S(0, 1, 1, 0).CollinearPoint(P(-1, 2)))
 }
 
+func TestGetCollinearity(t *testing.T) {
+	expect(t, math.Abs(S(36.18081913335887, 51.77085886276735, 36.180163, 51.772089).GetCollinearity(P(36.180882800369446, 51.770739498069396))) < 0.0000000000000000081)
+}
+
 func TestSegmentContainsSegment(t *testing.T) {
 	expect(t, S(0, 0, 10, 10).ContainsSegment(S(0, 0, 10, 10)))
+	expect(t, S(0, 0, 10, 10).ContainsSegment(S(10, 10, 0, 0)))
 	expect(t, S(0, 0, 10, 10).ContainsSegment(S(2, 2, 10, 10)))
 	expect(t, S(0, 0, 10, 10).ContainsSegment(S(2, 2, 8, 8)))
+	expect(t, S(0, 0, 10, 10).ContainsSegment(S(8, 8, 2, 2)))
 	expect(t, !S(0, 0, 10, 10).ContainsSegment(S(-1, -1, 8, 8)))
+	// bigger contains smaller
+	expect(t, S(-1, -1, 18, 18).ContainsSegment(S(0, 0, 10, 10)))
+	// smaller not contains bigger
+	expect(t, !S(0, 0, 10, 10).ContainsSegment(S(-1, -1, 18, 18)))
 }
 
 func TestSegmentIntersectsSegment(t *testing.T) {
@@ -360,4 +372,31 @@ func TestSegmentMove(t *testing.T) {
 
 func TestSegmentRect(t *testing.T) {
 	expect(t, S(12, 13, 11, 12).Rect() == R(11, 12, 12, 13))
+}
+
+func TestSegment_Distance(t *testing.T) {
+	expect(t, S(0, 0, 5, 0).Distance(P(1, 1)) == 1)
+	expect(t, S(0, 0, 0, 5).Distance(P(1, 1)) == 1)
+	expect(t, S(0, 0, 1, 1).Distance(P(1, 1)) == 0)
+	expect(t, S(0, 0, 1, 1).Distance(P(5, 5)) == 0)
+	t.Log(S(36.18081913335887, 51.77085886276735, 36.180163, 51.772089).Distance(P(36.180882800369446, 51.770739498069396)))
+}
+
+func TestSegment_GetNearestToPoint(t *testing.T) {
+	var p *Point
+
+	p = S(0, 0, 5, 0).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(1, 0)))
+	p = S(0, 0, 0, 5).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(0, 1)))
+	p = S(0, 5, 5, 5).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(1, 5)))
+	p = S(0, 0, 5, 5).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(1, 1)))
+	d := S(0, 0, 5, 5).Distance(P(5, 0))
+	t.Log(d)
+	p = S(0, 0, 5, 5).GetNearestToPoint(P(5, 0))
+	p = S(-1, 1, 1, -1).GetNearestToPoint(P(4, 0))
+	t.Log(p)
+	expect(t, p.ContainsPoint(P(1, 1)))
 }

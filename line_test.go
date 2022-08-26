@@ -117,6 +117,9 @@ func TestLineContainsLine(t *testing.T) {
 	expect(t, !ln1.ContainsLine(L()))
 	expect(t, !L().ContainsLine(L(P(5, 0))))
 	expect(t, !L(P(5, 0), P(10, 0)).ContainsLine(L(P(5, 0))))
+	expect(t, L(P(-1, -1), P(100, 100)).ContainsLine(L(P(0, 0), P(1, 1))))
+	expect(t, L(P(-1, -1), P(5, 5), P(10, 10), P(100, 100)).ContainsLine(L(P(0, 0), P(1, 1))))
+	expect(t, !L(P(-1, -1), P(5, 5), P(10, 10), P(100, 100)).ContainsLine(L(P(0, 0), P(40, 40))))
 	expect(t, R(0, 0, 30, 30).ContainsLine(L(P(15, 0), P(15, 15), P(30, 15))))
 	expect(t, !R(0, 0, 30, 30).ContainsLine(L()))
 }
