@@ -381,3 +381,22 @@ func TestSegment_Distance(t *testing.T) {
 	expect(t, S(0, 0, 1, 1).Distance(P(5, 5)) == 0)
 	t.Log(S(36.18081913335887, 51.77085886276735, 36.180163, 51.772089).Distance(P(36.180882800369446, 51.770739498069396)))
 }
+
+func TestSegment_GetNearestToPoint(t *testing.T) {
+	var p *Point
+
+	p = S(0, 0, 5, 0).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(1, 0)))
+	p = S(0, 0, 0, 5).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(0, 1)))
+	p = S(0, 5, 5, 5).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(1, 5)))
+	p = S(0, 0, 5, 5).GetNearestToPoint(P(1, 1))
+	expect(t, p.ContainsPoint(P(1, 1)))
+	d := S(0, 0, 5, 5).Distance(P(5, 0))
+	t.Log(d)
+	p = S(0, 0, 5, 5).GetNearestToPoint(P(5, 0))
+	p = S(-1, 1, 1, -1).GetNearestToPoint(P(4, 0))
+	t.Log(p)
+	expect(t, p.ContainsPoint(P(1, 1)))
+}

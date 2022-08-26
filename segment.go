@@ -145,3 +145,35 @@ func (seg Segment) Distance(point Point) float64 {
 func (seg Segment) GetSize() float64 {
 	return seg.A.Distance(seg.B)
 }
+
+// returns nearest point at Line at seg to C
+func (seg Segment) GetNearestToPoint(C Point) *Point {
+	// seg: ax + by + c = 0
+	a := seg.A.Y - seg.B.Y
+	if a == 0 {
+		return &Point{C.X, seg.A.Y}
+	}
+	if seg.Distance(C) == 0 {
+		return &Point{
+			X: C.X,
+			Y: C.Y,
+		}
+	}
+
+	// https://math.semestr.ru/line/perpendicular.php
+	// Прямая, проходящая через точку C(x1; y1) и перпендикулярная прямой Ax+By+C=0,
+	// представляется уравнением
+	// A(y-y1)-B(x-x1)=0 (2)
+
+	b := seg.B.X - seg.A.X
+	c := seg.A.X*seg.B.Y - seg.B.X*seg.A.Y
+
+	var rx, ry float64
+	ry = (a*a*C.Y - a*b*C.X - b*c) / (a*a + b*b)
+	rx = (-1) * (c + b*ry) / a
+
+	return &Point{
+		X: rx,
+		Y: ry,
+	}
+}
